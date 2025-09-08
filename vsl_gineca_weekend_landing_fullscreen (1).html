@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gineca Weekend • Transmissão Ao Vivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --violet:#6e00ff;           /* violeta destaque */
+      --violet-2:#8e2de2;         /* gradiente 1 */
+      --violet-3:#6a00b8;         /* gradiente 2 */
+      --ink:#12021c;              /* fundo escuro roxo */
+      --text:#ffffff;             /* texto principal */
+      --muted: #e9d9ff;           /* texto secundário */
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(142,45,226,.30), transparent 60%),
+                 radial-gradient(900px 500px at 90% 20%, rgba(106,0,184,.25), transparent 60%),
+                 radial-gradient(800px 800px at 50% 100%, rgba(142,45,226,.35), transparent 60%),
+                 var(--ink);
+    }
+
+    /* Top ribbon */
+    .ribbon{
+      width:100%;
+      text-align:center;
+      padding:.6rem 1rem;
+      font-weight:800;
+      letter-spacing:.02em;
+      background: linear-gradient(90deg, var(--violet-2), var(--violet-3));
+      text-transform:uppercase;
+      font-size:.85rem;
+    }
+
+    /* Container */
+    .wrap{ min-height:calc(100vh - 48px); display:grid; place-items:center; padding: clamp(16px,3vw,32px); }
+
+    .card{
+      width:min(1100px, 100%);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius:24px;
+      padding:clamp(16px,3vw,28px);
+      box-shadow: 0 30px 80px rgba(0,0,0,.35);
+    }
+
+    .headline{
+      margin:0 0 18px 0;
+      font-weight:800;
+      line-height:1.12;
+      text-align:center;
+      font-size:clamp(1.4rem, 3.5vw + .6rem, 2.2rem);
+    }
+
+    .headline strong{
+      background: linear-gradient(90deg, var(--violet-2), var(--violet));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+
+    /* Video responsive */
+    .player-shell{ position:relative; border-radius:20px; overflow:hidden; background:#000; }
+    .player-shell::after{ /* subtle frame */
+      content:""; position:absolute; inset:0; pointer-events:none;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+      border-radius:20px;
+    }
+    .player{ width:100%; aspect-ratio:16/9; display:block; border:0; }
+
+    /* Live ticker below video */
+    .ticker{
+      margin:12px auto 0;
+      width:100%;
+      max-width:720px;
+      font-size:clamp(.86rem, 2.2vw + .2rem, 1rem);
+      font-weight:600;
+      color:var(--muted);
+      background: rgba(0,0,0,.45);
+      border: 1px solid rgba(255,255,255,.12);
+      padding:10px 14px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:.5ch;
+      flex-wrap:wrap;
+    }
+    .dot{ font-size:1.05rem; line-height:1; }
+
+    /* CTA area */
+    .cta-area{ display:none; text-align:center; margin-top:18px; }
+    .cta{
+      display:inline-flex; align-items:center; justify-content:center; gap:.6ch;
+      padding:16px 26px; border-radius:999px; border:0; cursor:pointer;
+      font-weight:800; font-size:1.05rem; letter-spacing:.02em; color:#fff;
+      background: linear-gradient(90deg, var(--violet-2), var(--violet));
+      box-shadow: 0 10px 30px rgba(142,45,226,.45);
+      transition: transform .15s ease, box-shadow .15s ease, opacity .3s ease;
+      text-decoration:none;
+    }
+    .cta:hover{ transform: translateY(-1px); box-shadow:0 14px 44px rgba(142,45,226,.55); }
+    .cta:active{ transform: translateY(0); }
+
+    .guarantee{ font-size:.9rem; color:var(--muted); margin-top:8px; }
+
+    /* Sticky CTA on mobile after reveal */
+    .sticky-cta{ display:none; position:fixed; left:0; right:0; bottom:14px; z-index:20; justify-content:center; }
+    .sticky-cta .cta{ width:min(680px,92vw); }
+
+    /* Footer mini */
+    footer{ text-align:center; color:#cbb3ff; opacity:.85; font-size:.78rem; margin-top:18px; }
+
+    @media (max-width: 680px){
+      .card{ padding: 14px; border-radius:18px; }
+      .headline{ font-size:clamp(1.2rem, 5vw + .5rem, 1.8rem); }
+      .ticker{ font-size:.9rem; padding:10px 12px; gap:.4ch; justify-content:center; }
+      #viewerCount{ font-weight:800; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ribbon">Últimas vagas! Garanta seu ingresso antes que acabe.</div>
+
+  <main class="wrap">
+    <section class="card" aria-label="Página da VSL - Gineca Weekend Online">
+      <h1 class="headline">Um final de semana. Dois dias. <strong>Uma chance de mudar sua carreira para sempre.</strong></h1>
+
+      <div class="player-shell">
+        <!-- YouTube (privacy-enhanced) -->
+        <iframe class="player" 
+                src="https://www.youtube-nocookie.com/embed/g6wzEt6Jl7E?rel=0&modestbranding=1&autoplay=1&mute=1&playsinline=1"
+                title="VSL Gineca Weekend" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <!-- Live ticker (visible até o CTA aparecer) -->
+      <div id="ticker" class="ticker" role="status" aria-live="polite">
+        <span>Você e mais</span> <span class="dot">🛑</span> <strong id="viewerCount">174</strong> <span>pessoas estão assistindo esse vídeo agora…</span>
+      </div>
+
+      <!-- CTA aparece após 4 minutos -->
+      <div id="ctaArea" class="cta-area">
+        <a class="cta" href="#comprar" id="ctaButton">Garantir meu ingresso agora</a>
+        <div class="guarantee">Acesso 100% online • Vagas limitadas • Transmissão ao vivo nos dias 18 e 19 de outubro de 2025</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sticky CTA (mobile) -->
+  <div id="stickyCta" class="sticky-cta"><a class="cta" href="#comprar">Garantir meu ingresso</a></div>
+
+  <footer>Gineca Weekend • Transmissão oficial • Todos os direitos reservados</footer>
+
+  <script>
+    // ===== Viewer ticker simulation =====
+    const viewerEl = document.getElementById('viewerCount');
+    let current = 174;
+    const MIN = 158, MAX = 242; // faixa realista
+
+    function jitter(){
+      const delta = Math.floor(Math.random()*14) - 5 + 1;
+      current = Math.min(MAX, Math.max(MIN, current + delta));
+      viewerEl.textContent = current.toString();
+      const next = 4000 + Math.random()*6000; // 4s a 10s
+      setTimeout(jitter, next);
+    }
+    jitter();
+
+    // ===== CTA reveal after 4 minutes on page =====
+    const CTA_DELAY_MS = 4 * 60 * 1000;
+    const ctaArea = document.getElementById('ctaArea');
+    const ticker = document.getElementById('ticker');
+    const stickyCta = document.getElementById('stickyCta');
+    const revealCTA = () => {
+      ctaArea.style.display = 'block';
+      stickyCta.style.display = window.matchMedia('(max-width: 768px)').matches ? 'flex' : 'none';
+      ticker.style.display = 'none';
+      const btn = document.getElementById('ctaButton');
+      if(btn) btn.focus({preventScroll:true});
+    };
+
+    let start = performance.now();
+    function check(){
+      const elapsed = performance.now() - start;
+      if(elapsed >= CTA_DELAY_MS){ revealCTA(); }
+      else requestAnimationFrame(check);
+    }
+    requestAnimationFrame(check);
+
+    document.querySelectorAll('a[href="#comprar"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        alert('Substitua o link do botão por sua URL de checkout (Kiwify/Stripe/etc.).');
+      });
+    });
+  </script>
+</body>
+</html>
